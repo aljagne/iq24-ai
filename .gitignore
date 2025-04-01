@@ -1,0 +1,21 @@
+# .gitignore (in the root iq24-ai directory)
+
+# ... other ignores
+node_modules
+.DS_Store
+
+# Dotenv files
+# Ignore all .env files, except .env.example.
+.env
+.env.*
+!.env.example
+
+# Specific package ignores (add if needed, but root .env should cover most)
+apps/api/.env
+apps/dashboard/.env.local
+packages/database/.env
+
+# Build outputs
+dist
+.next
+.vercel
