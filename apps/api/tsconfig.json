@@ -1,0 +1,17 @@
+// apps/api/tsconfig.json
+{
+  "extends": "@iq24/config/tsconfig/tsconfig.base.json", // Extend the base config
+  "compilerOptions": {
+    "outDir": "dist", // Specify output directory for the API build
+    "rootDir": "src",
+    "module": "ESNext", // Keep as ESNext for Hono/tsup
+    "moduleResolution": "Bundler", // Use Bundler resolution
+    "baseUrl": ".", // Base for paths if needed
+    "paths": { // Define specific path alias for the api app if needed
+       "@/*": ["./src/*"]
+    }
+     // NoEmit should be false (or absent) here since we ARE emitting build artifacts
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}

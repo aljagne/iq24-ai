@@ -1,0 +1,101 @@
+// packages/database/prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../node_modules/.prisma/client" // Optional: specify output path if needed
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // shadowDatabaseUrl = env("SHADOW_DATABASE_URL") // Needed for `prisma migrate dev` if main DB user lacks create DB permissions
+}
+
+// Useful extensions (optional, but recommended)
+// You might need to enable these in Supabase SQL editor first:
+// CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+// CREATE EXTENSION IF NOT EXISTS "moddatetime";
+
+model Account {
+  id        String   @id @default(uuid()) // Or use cuid() if preferred
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt // Requires moddatetime extension or trigger
+
+  users User[] // An account can have multiple users
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  hashedPassword String? // Store hashed password securely
+  firstName     String?
+  lastName      String?
+  avatarUrl     String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  accountId String // Foreign key to Account
+  account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade) // Cascade delete users if account is deleted
+
+  // Link to Authentication provider (e.g., Supabase Auth uses its own tables, but you might link via id/email)
+  // authUserId String? @unique // If linking to external auth provider ID
+
+  // Add roles or permissions later if needed
+  // role String @default("MEMBER")
+
+  // Relationships to other models (e.g., Prospects owned by this user)
+  prospects Prospect[]
+
+  @@index([accountId])
+  @@index([email])
+}
+
+model Company {
+  id          String   @id @default(uuid())
+  name        String
+  domain      String?  @unique // Company website domain
+  description String?
+  industry    String?
+  sizeRange   String?  // e.g., "10-50", "500+"
+  linkedInUrl String?
+  // Add other firmographic data as needed
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  prospects Prospect[] // A company can have multiple prospects
+
+  @@index([domain])
+  @@index([name])
+}
+
+model Prospect {
+  id          String   @id @default(uuid())
+  firstName   String
+  lastName    String
+  email       String?  @unique // Prospect's email (might be null initially)
+  title       String?  // Job title
+  linkedInUrl String?
+  phone       String?
+  status      String   @default("NEW") // e.g., NEW, CONTACTED, QUALIFIED, UNQUALIFIED
+  source      String?  // How the prospect was discovered (e.g., 'LinkedIn', 'WebScrape')
+  // Lead score, engagement metrics, etc. can be added later
+  score       Float?
+  lastContactedAt DateTime?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  companyId String?  // Optional: Link to a Company
+  company   Company? @relation(fields: [companyId], references: [id], onDelete: SetNull) // If company deleted, set prospect's companyId to null
+
+  ownerId   String // Foreign key to the User who owns/manages this prospect
+  owner     User     @relation(fields: [ownerId], references: [id], onDelete: Cascade) // If owner deleted, delete the prospect
+
+  @@index([email])
+  @@index([companyId])
+  @@index([ownerId])
+  @@index([status])
+}
+
+// Add other models later: Campaign, OutreachSequence, Message, InteractionLog, etc.

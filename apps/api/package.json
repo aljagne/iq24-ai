@@ -1,0 +1,27 @@
+{
+  "name": "@iq24/api",
+  "version": "0.1.0",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "lint": "eslint . --ext .ts",
+    "format": "biome format --write ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@iq24/config": "workspace:*",
+    "hono": "^4.7.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.14",
+    "eslint": "^9",
+    "tsup": "^8.0.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    /* Base Options: */
+    "esModuleInterop": true, // Enables compatibility with CommonJS modules
+    "skipLibCheck": true, // Skip type checking of declaration files
+    "target": "ES2022", // Target modern ECMAScript features
+    "allowJs": true, // Allow JavaScript files to be compiled
+    "resolveJsonModule": true, // Allow importing JSON files
+    "moduleDetection": "force", // Treat files as modules even without imports/exports
+    "isolatedModules": true, // Ensure files can be safely compiled individually (required by Babel, SWC)
+
+    /* Strictness */
+    "strict": true, // Enable all strict type-checking options
+    "noUncheckedIndexedAccess": true, // Prevent unsafe access to objects via index signatures
+    // "noImplicitAny": true, // Already covered by "strict"
+    // "strictNullChecks": true, // Already covered by "strict"
+
+    /* If transpiling with TypeScript: */
+    // "moduleResolution": "node", // Adjust in specific tsconfigs if needed (e.g., "Bundler")
+    // "outDir": "dist", // Define in specific tsconfigs
+
+    /* If NOT transpiling with TypeScript: */
+    "module": "preserve", // Preserve original module syntax (used by Next.js with SWC)
+    "noEmit": true, // Do not emit output files (useful when using Babel/SWC for transpilation)
+
+    /* Linting */
+    "noUnusedLocals": true, // Report errors on unused local variables
+    "noUnusedParameters": true, // Report errors on unused parameters
+    "noFallthroughCasesInSwitch": true, // Report errors for fallthrough cases in switch statements
+
+    /* Path Aliases (Optional Base - Define specific ones in app/package tsconfigs) */
+    "baseUrl": ".", // Base directory for path resolution
+    "paths": {} // Leave empty here, override in specific configs if needed
+  },
+  "exclude": ["node_modules"] // Exclude node_modules from compilation
+}

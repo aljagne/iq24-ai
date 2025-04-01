@@ -1,0 +1,29 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+overrides:
+  config: link:../../../../.local/share/pnpm/global/5/node_modules/@iq24/config
+
+importers:
+
+  .:
+    dependencies:
+      config:
+        specifier: link:../../../../.local/share/pnpm/global/5/node_modules/@iq24/config
+        version: link:../../../../.local/share/pnpm/global/5/node_modules/@iq24/config
+      hono:
+        specifier: ^4.7.5
+        version: 4.7.5
+
+packages:
+
+  hono@4.7.5:
+    resolution: {integrity: sha512-fDOK5W2C1vZACsgLONigdZTRZxuBqFtcKh7bUQ5cVSbwI2RWjloJDcgFOVzbQrlI6pCmhlTsVYZ7zpLj4m4qMQ==}
+    engines: {node: '>=16.9.0'}
+
+snapshots:
+
+  hono@4.7.5: {}
